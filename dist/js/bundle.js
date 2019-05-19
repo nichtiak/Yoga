@@ -103,12 +103,12 @@ function calc() {
         total = 0;
 
     totalValue.innerHTML = 0;
-
+   
     persons.addEventListener('change', function () {
         personsSum = +this.value;
         total = (daysSum + personsSum) * 4000;
 
-        if (restDays.value == '' || persons.value == '' || persons.value == 0 || restDays.value == 0) {
+        if (restDays.value == '' || persons.value == ''|| persons.value == 0 || restDays.value == 0) {
             totalValue.innerHTML = 0;
         } else {
             totalValue.innerHTML = place.options[place.selectedIndex].value * total;
@@ -119,7 +119,7 @@ function calc() {
         daysSum = +this.value;
         total = (daysSum + personsSum) * 4000;
 
-        if (persons.value == '' || restDays.value == '' || persons.value == 0 || restDays.value == 0) {
+        if (persons.value == '' || restDays.value == '' || persons.value == 0 || restDays.value == 0){
             totalValue.innerHTML = 0;
         } else {
             totalValue.innerHTML = place.options[place.selectedIndex].value * total;
@@ -127,7 +127,7 @@ function calc() {
     });
 
     place.addEventListener('change', function () {
-        if (restDays.value == '' || persons.value == '' || persons.value == 0 || restDays.value == 0) {
+        if (persons.value == '' || restDays.value == '' || persons.value == 0 || restDays.value == 0) {
             totalValue.innerHTML = 0;
         } else {
             let a = total;
@@ -135,11 +135,13 @@ function calc() {
         }
     });
     persons.addEventListener('keypress', function (e) {
-        if (!/\d/.test(e.key)) {
+        this.value = persons.value.replace(/^0/, '');
+        if (!/\d/.test(e.key))  {
             e.preventDefault();
         }
     });
     restDays.addEventListener('keypress', function (e) {
+        this.value = restDays.value.replace(/^0/, '');
         if (!/\d/.test(e.key)) {
             e.preventDefault();
         }
@@ -192,7 +194,7 @@ function form() {
 
     };
 
-    input[0].onkeypress = function (e) {
+    input[0].onkeypress = (e) => {
 
         e = e || event;
 
@@ -313,7 +315,7 @@ function modal() {
 		descriptionBtn = document.querySelectorAll('.description-btn');
 
 	function modal(target) {
-		for (let i = 0; i < descriptionBtn.length; i++) {
+		for (let i = 0; i < target.length; i++) {
 			target[i].addEventListener('click', function () {
 				overlay.style.display = 'block';
 				this.classList.add('more-splash');
@@ -326,11 +328,11 @@ function modal() {
 				document.body.style.overflow = 'hidden';
 			});
 
-			close.addEventListener('click', function () {
+			close.addEventListener('click', () => {
 				overlay.style.display = 'none';
 				more.classList.remove('more-splash');
 				document.body.style.overflow = '';
-			})
+			});
 		};
 	};
 	modal(descriptionBtn);
@@ -381,15 +383,15 @@ function slider() {
 		showSlides(slideIndex = n);
 	}
 
-	prev.addEventListener('click', function(){
+	prev.addEventListener('click', () => {
 		plusSlides(-1);
 	});
 
-	next.addEventListener('click', function() {
+	next.addEventListener('click', () => {
 		plusSlides(1);
 	});
 
-	dotsWrap.addEventListener('click', function(event) {
+	dotsWrap.addEventListener('click', (event) => {
 		for (let i = 0; i < dots.length + 1; i++) {
 			if (event.target.classList.contains('dot') && event.target == dots[i-1]) {
 				currentSlide(i);

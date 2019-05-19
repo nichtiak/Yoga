@@ -5,7 +5,7 @@ function modal() {
 		descriptionBtn = document.querySelectorAll('.description-btn');
 
 	function modal(target) {
-		for (let i = 0; i < descriptionBtn.length; i++) {
+		for (let i = 0; i < target.length; i++) {
 			target[i].addEventListener('click', function () {
 				overlay.style.display = 'block';
 				this.classList.add('more-splash');
@@ -18,11 +18,11 @@ function modal() {
 				document.body.style.overflow = 'hidden';
 			});
 
-			close.addEventListener('click', function () {
+			close.addEventListener('click', () => {
 				overlay.style.display = 'none';
 				more.classList.remove('more-splash');
 				document.body.style.overflow = '';
-			})
+			});
 		};
 	};
 	modal(descriptionBtn);

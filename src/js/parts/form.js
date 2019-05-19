@@ -33,7 +33,7 @@ function form() {
 
     };
 
-    input[0].onkeypress = function (e) {
+    input[0].onkeypress = (e) => {
 
         e = e || event;
 
