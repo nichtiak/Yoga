@@ -166,49 +166,17 @@ function form() {
         failure: 'Что-то пошло не так...'
     },
         form = document.querySelector('.main-form'),
-        input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div'),
-
-        forma = document.getElementById('form'),
-        inputs = forma.getElementsByTagName('input'),
-        input1 = forma.getElementsByTagName('input')[0],
-        input2 = forma.getElementsByTagName('input')[1];
+        forma = document.getElementById('form');
 
 
-    input1.name = 'email';
-    input2.name = 'phone';
-
-    input2.onkeypress = function (e) {    //отмена ввода букв
-
-        e = e || event;
-
-        if (e.ctrlKey || e.altKey || e.metaKey) return;
-
-        let chr = getChar(e);
-
-        if (chr == '+' || (chr == null)) return;
-
-        if (chr < '0' || chr > '9') {
-            return false;
-        }
-
-    };
-
-    input[0].onkeypress = (e) => {
-
-        e = e || event;
-
-        if (e.ctrlKey || e.altKey || e.metaKey) return;
-
-        let chr = getChar(e);
-
-        if (chr == '+' || (chr == null)) return;
-
-        if (chr < '0' || chr > '9') {
-            return false;
-        }
-
-    };
+    document.querySelectorAll('input[name="phone"]').forEach(item => {
+        item.addEventListener('keypress', (e) => {
+            if (!/\d/.test(e.key) && !/ +/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    });
 
     function getChar(event) {
         if (event.which == null) {
@@ -236,6 +204,7 @@ function form() {
             e.preventDefault();
             elem.appendChild(statusMessage);
             let formData = new FormData(elem);
+            input = elem.querySelectorAll('input');
 
 
             function postData(data) {
@@ -279,18 +248,12 @@ function form() {
                 }
             }
 
-            function clearInputs() {
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].value = '';
-                }
-            }
 
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)
                 .then(() => statusMessage.innerHTML = message.success)
                 .catch(() => statusMessage.innerHTML = message.failure)
-                .then(clearInput)
-                .then(clearInputs);
+                .then(clearInput);
         });
     }
     sendForm(form);
