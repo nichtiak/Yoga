@@ -1,9 +1,9 @@
 function form() {
     let message = {
-        loading: 'Загрузка...',
-        success: 'Спасибо! Скоро мы с вами свяжимся!',
-        failure: 'Что-то пошло не так...'
-    },
+            loading: 'Загрузка...',
+            success: 'Спасибо! Скоро мы с вами свяжимся!',
+            failure: 'Что-то пошло не так...'
+        },
         form = document.querySelector('.main-form'),
         statusMessage = document.createElement('div'),
         forma = document.getElementById('form');
@@ -11,32 +11,13 @@ function form() {
 
     document.querySelectorAll('input[name="phone"]').forEach(item => {
         item.addEventListener('keypress', (e) => {
-            if (!/\d/.test(e.key) && !/ +/.test(e.key)) {
+            if (!/\d/.test(e.key) && !/\+/.test(e.key)) {
                 e.preventDefault();
             }
         });
     });
 
-    function getChar(event) {
-        if (event.which == null) {
-            if (event.keyCode < 32) return null;
-            return String.fromCharCode(event.keyCode)
-        }
-
-        if (event.which != 0 && event.charCode != 0) {
-            if (event.which < 32) return null;
-            return String.fromCharCode(event.which)
-        }
-
-        return null;
-    }
-
-
-    statusMessage.classList.add('status');
-
-
-
-    // Отправка промисами
+    statusMessage.classList.add('status'); 
 
     function sendForm(elem) {
         elem.addEventListener('submit', function (e) {
@@ -50,11 +31,8 @@ function form() {
 
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest();
-
                     request.open('POST', 'server.php');
-
                     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
                     // request.send(json);
 
                     request.onreadystatechange = function () {
@@ -86,7 +64,6 @@ function form() {
                     input[i].value = '';
                 }
             }
-
 
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)

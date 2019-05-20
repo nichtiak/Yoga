@@ -161,10 +161,10 @@ module.exports = calc;
 
 function form() {
     let message = {
-        loading: 'Загрузка...',
-        success: 'Спасибо! Скоро мы с вами свяжимся!',
-        failure: 'Что-то пошло не так...'
-    },
+            loading: 'Загрузка...',
+            success: 'Спасибо! Скоро мы с вами свяжимся!',
+            failure: 'Что-то пошло не так...'
+        },
         form = document.querySelector('.main-form'),
         statusMessage = document.createElement('div'),
         forma = document.getElementById('form');
@@ -172,32 +172,13 @@ function form() {
 
     document.querySelectorAll('input[name="phone"]').forEach(item => {
         item.addEventListener('keypress', (e) => {
-            if (!/\d/.test(e.key) && !/ +/.test(e.key)) {
+            if (!/\d/.test(e.key) && !/\+/.test(e.key)) {
                 e.preventDefault();
             }
         });
     });
 
-    function getChar(event) {
-        if (event.which == null) {
-            if (event.keyCode < 32) return null;
-            return String.fromCharCode(event.keyCode)
-        }
-
-        if (event.which != 0 && event.charCode != 0) {
-            if (event.which < 32) return null;
-            return String.fromCharCode(event.which)
-        }
-
-        return null;
-    }
-
-
-    statusMessage.classList.add('status');
-
-
-
-    // Отправка промисами
+    statusMessage.classList.add('status'); 
 
     function sendForm(elem) {
         elem.addEventListener('submit', function (e) {
@@ -211,11 +192,8 @@ function form() {
 
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest();
-
                     request.open('POST', 'server.php');
-
                     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
                     // request.send(json);
 
                     request.onreadystatechange = function () {
@@ -248,7 +226,6 @@ function form() {
                 }
             }
 
-
             postData(formData)
                 .then(() => statusMessage.innerHTML = message.loading)
                 .then(() => statusMessage.innerHTML = message.success)
@@ -272,33 +249,32 @@ module.exports = form;
 /***/ (function(module, exports) {
 
 function modal() {
-    let more = document.querySelector('.more'),
+	let more = document.querySelector('.more'),
 		overlay = document.querySelector('.overlay'),
-		close = document.querySelector('.popup-close'),
-		descriptionBtn = document.querySelectorAll('.description-btn');
+		close = document.querySelector('.popup-close');
+	more.classList.add('description-btn');
 
-	function modal(target) {
-		for (let i = 0; i < target.length; i++) {
-			target[i].addEventListener('click', function () {
+	const modal = () => {
+		let allButtons = document.querySelectorAll('.description-btn');
+		for (let i = 0; i < allButtons.length; i++) {
+			allButtons[i].addEventListener('click', () => {
 				overlay.style.display = 'block';
-				this.classList.add('more-splash');
+				allButtons[i].classList.add('more-splash');
 				document.body.style.overflow = 'hidden';
-			});
-
-			more.addEventListener('click', function () {
-				overlay.style.display = 'block';
-				this.classList.add('more-splash');
-				document.body.style.overflow = 'hidden';
-			});
-
-			close.addEventListener('click', () => {
-				overlay.style.display = 'none';
-				more.classList.remove('more-splash');
-				document.body.style.overflow = '';
 			});
 		};
 	};
-	modal(descriptionBtn);
+
+	const hideModal = () => {
+		close.addEventListener('click', () => {
+			overlay.style.display = 'none';
+			more.classList.remove('more-splash');
+			document.body.style.overflow = '';
+		});
+	};
+
+	modal();
+	hideModal();
 }
 
 module.exports = modal;
